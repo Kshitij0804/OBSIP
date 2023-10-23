@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - 10.15.3
+cache: npm
+
+install:
+  - npm run test -- --coverage
+  - npm run build
+
+after_success:
+  - CODECOV_TOKEN=$codecov_token npm run report-coverage
+
+after_script:
+  - CODERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local_dir: build
+  on:
+    branch: master
